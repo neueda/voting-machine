@@ -2,9 +2,13 @@ import RPi.GPIO as GPIO
 import time
 
 cycle_delay = 0.5
+bounce_time = 1300
+
 led_pin = 18
 buzzer_pin = 23
-button_pin = 24
+green_button_pin = 24
+yellow_button_pin = 17
+red_button_pin = 22
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(led_pin, GPIO.OUT)
@@ -26,15 +30,29 @@ def led_on():
 def led_off():
     GPIO.output(led_pin, False)
 
-def button_callback(channel):
-    print('Button pressed')
+def green_pressed(channel):
+    button_pressed(1)
+
+def yellow_pressed(channel):
+    button_pressed(0)
+
+def red_pressed(channel):
+    button_pressed(-1)
+
+def button_pressed(rating):
+    print('Button pressed: ' + str(rating))
     led_on()
     buzz(500, 0.3)
     buzz(1000, 0.3)
     led_off()
 
-GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.add_event_detect(button_pin, GPIO.FALLING, callback=button_callback)
+GPIO.setup(green_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.add_event_detect(green_button_pin, GPIO.FALLING, callback=green_pressed, bouncetime=bounce_time)
+GPIO.setup(yellow_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.add_event_detect(yellow_button_pin, GPIO.FALLING, callback=yellow_pressed, bouncetime=bounce_time)
+GPIO.setup(red_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.add_event_detect(red_button_pin, GPIO.FALLING, callback=red_pressed, bouncetime=bounce_time)
+
 
 while (True):
     time.sleep(cycle_delay)
