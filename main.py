@@ -55,7 +55,9 @@ GPIO.add_event_detect(yellow_button_pin, GPIO.FALLING, callback=yellow_pressed, 
 GPIO.setup(red_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.add_event_detect(red_button_pin, GPIO.FALLING, callback=red_pressed, bouncetime=bounce_time)
 
-
-while (True):
-    time.sleep(cycle_delay)
+try:
+    while (True):
+        time.sleep(cycle_delay)
+finally:
+    GPIO.cleanup()
 
