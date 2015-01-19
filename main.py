@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import Voting
 
 cycle_delay = 0.5
 bounce_time = 1300
@@ -41,6 +42,7 @@ def red_pressed(channel):
 
 def button_pressed(rating):
     print('Button pressed: ' + str(rating))
+    Voting.vote(rating)
     led_on()
     buzz(500, 0.3)
     buzz(1000, 0.3)
