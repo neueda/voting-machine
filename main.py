@@ -3,7 +3,7 @@ import time
 import Voting
 
 cycle_delay = 0.5
-bounce_time = 1300
+bounce_time = 1000
 
 led_pin = 18
 buzzer_pin = 23
