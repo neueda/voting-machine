@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import RPi.GPIO as GPIO
 import time
 import Voting
@@ -10,6 +13,8 @@ buzzer_pin = 23
 green_button_pin = 24
 yellow_button_pin = 17
 red_button_pin = 22
+
+pressed = False
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(led_pin, GPIO.OUT)
@@ -41,14 +46,24 @@ def red_pressed(channel):
     button_pressed(-1)
 
 def button_pressed(rating):
+    global pressed
+    pressed = True
+    if pressed:
+        return
+    
     print('Button pressed: ' + str(rating))
     try:
         led_on()
         Voting.vote(rating)
     finally:
-        buzz(500, 0.3)
-        buzz(1000, 0.3)
+        buzz(300, 0.1)
+        buzz(500, 0.1)
+        buzz(300, 0.1)
+        buzz(500, 0.1)
+        buzz(300, 0.1)
+        buzz(500, 0.1)
         led_off()
+        pressed = False
 
 GPIO.setup(green_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.add_event_detect(green_button_pin, GPIO.FALLING, callback=green_pressed, bouncetime=bounce_time)
