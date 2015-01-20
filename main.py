@@ -42,11 +42,13 @@ def red_pressed(channel):
 
 def button_pressed(rating):
     print('Button pressed: ' + str(rating))
-    Voting.vote(rating)
-    led_on()
-    buzz(500, 0.3)
-    buzz(1000, 0.3)
-    led_off()
+    try:
+        led_on()
+        Voting.vote(rating)
+    finally:
+        buzz(500, 0.3)
+        buzz(1000, 0.3)
+        led_off()
 
 GPIO.setup(green_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.add_event_detect(green_button_pin, GPIO.FALLING, callback=green_pressed, bouncetime=bounce_time)
