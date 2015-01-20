@@ -47,9 +47,11 @@ def red_pressed(channel):
 
 def button_pressed(rating):
     global pressed
-    pressed = True
-    if not pressed:
+    
+    if pressed:
         return
+    
+    pressed = True
     
     print('Button pressed: ' + str(rating))
     try:
