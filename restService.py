@@ -22,7 +22,7 @@ app = web.application(urls, globals())
 
 def error_processor(handler):
     try:
-        handler()
+        return handler()
     except Exception as e:
         return {'error_message': e.message}
 
@@ -103,6 +103,8 @@ def lookup_data(rf_id=None, date=None, date_to=None):
     new_dict = []
     for single in results.list():
         new_dict.append(dict(rf_id=single.rf_id, vote=single.vote, timestamp=single.vote_timestamp))
+
+    print(new_dict)
 
     return {'result': new_dict}
 
