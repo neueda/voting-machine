@@ -1,14 +1,26 @@
 import unittest
 
-import rfIdReader
+import restService
 
 
-class RfIdReaderTest(unittest.TestCase):
-    def test_format(self):
-        to_format = ' 19272FA912,.!\r'
-        formatted = rfIdReader.format_input(to_format)
+class RestServiceTest(unittest.TestCase):
+    def test_valid_check_date(self):
+        date_to_check = '2015-01-02'
+        try:
+            restService.check_date(date_to_check, 'valid date')
+        except TypeError:
+            self.fail('valid date raised exception')
 
-        self.assertEqual(formatted, '19272FA912')
+    def test_valid_check_datetime(self):
+        date_to_check = '2015-01-02 12:14:01'
+        try:
+            restService.check_date(date_to_check, 'valid datetime')
+        except TypeError:
+            self.fail('valid datetime raised exception')
+
+    def test_invalid_check_date(self):
+        date_to_check = '01-02'
+        self.assertRaises(TypeError, restService.check_date, date_to_check, 'date')
 
 
 if __name__ == '__main__':

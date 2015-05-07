@@ -1,28 +1,32 @@
 #!/bin/bash
-# /etc/init.d/servoblaster
+# /etc/init.d/voteService
 
 ### BEGIN INIT INFO
-# Provides:          servoblaster
+# Provides:          voteService
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Example initscript
-# Description:       This service is used to manage a servo
+# Short-Description: Initscript
+# Description:       This service is used to manage a rest service for user votes
 ### END INIT INFO
 
 
 case "$1" in 
     start)
-        echo "Starting servoblaster"
-        /home/pi/servoblaster/PiBits/ServoBlaster/user/servod
+        echo "Starting vote service"
+        echo "Rest service output will be saved to /home/pi/Vote/serviceOutput.log"
+        python2.7 -u /home/pi/Vote/restService.py &> /home/pi/Vote/serviceOutput.log &
+        echo "Rest service output will be saved to /home/pi/Vote/mainOutput.log"
+        python2.7 -u /home/pi/Vote/main.py &> /home/pi/Vote/mainOutput.log &
         ;;
     stop)
-        echo "Stopping servoblaster"
-        killall servod
+        echo "Stopping vote service"
+        sudo pkill -9 -f restService.py
+        sudo pkill -9 -f main.py
         ;;
     *)
-        echo "Usage: /etc/init.d/servod start|stop"
+        echo "Usage: /etc/init.d/voteService start|stop"
         exit 1
         ;;
 esac
