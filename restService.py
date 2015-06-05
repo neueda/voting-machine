@@ -11,8 +11,8 @@ dthandler = lambda obj: (
     obj.isoformat()
     if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date)
     else None)
-render_json = lambda **args: json.dumps(args, default=dthandler)
-render_xml = lambda message: '<message>%s</message>' % message
+render_json = lambda result: json.dumps(result, default=dthandler)
+render_xml = lambda result: '<message>%s</message>' % result
 
 urls = (
     '/metrics', 'Metrics',
@@ -106,7 +106,7 @@ def lookup_data(rf_id=None, date=None, date_to=None):
 
     print(new_dict)
 
-    return {'result': new_dict}
+    return dict(result=new_dict)
 
 
 if __name__ == '__main__':
