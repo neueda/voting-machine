@@ -1,3 +1,4 @@
+import sqlite3
 import web
 import json
 import mimerender
@@ -102,7 +103,7 @@ def lookup_data(rf_id=None, date=None, date_to=None):
 
     new_dict = []
     for single in results.list():
-        new_dict.append(dict(rf_id=single.rf_id, vote=single.vote, timestamp=single.vote_timestamp))
+        new_dict.append(dict(rf_id=single.rf_id, vote=single.vote, timestamp=str(single.vote_timestamp)))
 
     print(new_dict)
 
